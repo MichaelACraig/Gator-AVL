@@ -1,6 +1,5 @@
 #include <iostream>
 #include <sstream>
-#include <string>
 #include "Node.h"
 
 using namespace std;
@@ -82,7 +81,7 @@ void BST::masterFunction(){
         } else if (commandName == "printLevelCount") {
             printLevelCount();
         } else {
-            cout << "Unsuccessful" << endl;
+            cout << "unsuccessful" << endl;
         }
     }
 }
@@ -103,13 +102,13 @@ BST::Node* BST::searchIDRecurse(BST::Node* root, int ID){
     }
 }
 
-BST::Node* BST::searchNAMERecurse(BST::Node* root, string NAME){
+void BST::searchNAMERecurse(BST::Node* root, string NAME){
     //Use DFS in preOrder to search each root->NAME
     //If NAME == root->name, print out their root->ID << endl;
     //else, cout << "Unsuccessful << endl;
 
     if(root == nullptr){
-        return nullptr;
+        return;
     }
     if(NAME == root->NAME){
         cout << root->ID << endl;
@@ -127,9 +126,9 @@ void BST::search(string NAME){
     searchNAMERecurse(root, NAME);
 }
 //Start of Print Functions
-BST::Node* BST::printPreorderRecursive(BST::Node *root, bool& last) {
+void BST::printPreorderRecursive(BST::Node *root, bool& last) {
     if(root == nullptr){
-        return nullptr;
+        return;
     }
 
     if(last){
@@ -143,9 +142,9 @@ BST::Node* BST::printPreorderRecursive(BST::Node *root, bool& last) {
     printPreorderRecursive(root->right, last);
 }
 
-BST::Node* BST::printInorderRecursive(BST::Node *root, bool& last) {
+void BST::printInorderRecursive(BST::Node *root, bool& last) {
     if(root == nullptr){
-        return nullptr;
+        return;
     }
     printInorderRecursive(root->left, last);
 
@@ -160,9 +159,9 @@ BST::Node* BST::printInorderRecursive(BST::Node *root, bool& last) {
     printInorderRecursive(root->right, last);
 }
 
-BST::Node* BST::printPostorderRecursive(BST::Node *root, bool& last) {
+void BST::printPostorderRecursive(BST::Node *root, bool& last) {
     if(root == nullptr){
-        return nullptr;
+        return;
     }
     printPostorderRecursive(root->left, last);
     printPostorderRecursive(root->right, last);
@@ -330,7 +329,7 @@ BST::Node* BST::recursion(BST::Node* insertedNode, BST::Node* root) {
         root->right = recursion(insertedNode, root->right); //On second iteration, uses root->right as root in parameter and root->right = NULL
     }
     else { //If Nodes are equal to eachother
-        cout << "Unsuccessful" << endl;
+        cout << "unsuccessful" << endl;
         return root;
     }
     return root;
@@ -346,7 +345,7 @@ BST::Node* BST::insert(string insertedName, int insertedID){ //Initial call, tak
         root = recursion(newNode, root); //Calls recursion to insert into the tree
         root = balanceFactorOfAllNodes(root); //Calls balanceFactorOfAllNodes() which balances the Tree via findHeight(), findBalanceFactor(), and combines.
     }
-    cout << "Successful" << endl;
+    cout << "successful" << endl;
     return root;
 }
 //End of Insertion Functions - Start of Removal Functions
@@ -410,10 +409,10 @@ void BST::remove(int ID){
     Node* temp = removeRecursive(root, ID);
 
     if(temp == nullptr){
-        cout << "Unsuccessful" << endl;
+        cout << "unsuccessful" << endl;
     }
     else {
-        cout << "Successful" << endl;
+        cout << "successful" << endl;
     }
 }
 
@@ -431,10 +430,10 @@ BST::Node* BST::removeInorderRecursive(BST::Node* root, int N, int count){
     return root;
 }
 
-BST::Node* BST::removeInorder(int N) {
+void BST::removeInorder(int N) {
     int count = -1; //Since the first node in the series is 0, set to -1
     removeInorderRecursive(root, N, count);
-    cout << "Successful" << endl;
+    cout << "successful" << endl;
 
     //Below might be obsolete; Wanted to take an iterative approach but looks like it'll be long; Try recursive
     //Keep for reference in-case we need to go back, else just ignore.

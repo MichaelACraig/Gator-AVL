@@ -1,8 +1,4 @@
-#include <iostream>
-
 #include "Node.h"
-//#include "Insert.h" //Currently out of use in this build, unnecessary but recall if needed
-#include "functions.cpp"
 
 using namespace std;
 
@@ -31,20 +27,6 @@ int main() {
     remove 45679999
     removeInorder 2
     printInorder
-
-
-    9
-    insert "Brandon" 45679999
-    insert "Brian" 35459999
-    insert "Briana" 87879999
-    insert "Bella" 95469999
-    insert "Aaron" 47899999
-    insert "Benson" 34549999
-    insert "Beno" 89999999
-    insert "Bert" 91019999
-    insert "Bellern" 91019999
-
-     */
 
     return 0;
 }

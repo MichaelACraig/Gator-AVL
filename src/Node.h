@@ -19,7 +19,7 @@ struct BST{
         int ID;
         //int balanceFactor;
 
-        Node(string x, int y) : NAME(x), ID(y), left(nullptr), right(nullptr), parent(nullptr) {}
+        Node(string x, int y) : left(nullptr), right(nullptr), parent(nullptr), NAME(x), ID(y) {}
         //~Node();
     };
 
@@ -33,17 +33,17 @@ struct BST{
 
     //Search Functions
     void search(string NAME);
-    Node* searchNAMERecurse(Node* root, string NAME);
+    void searchNAMERecurse(Node* root, string NAME);
     void search(int ID);
     Node* searchIDRecurse(Node* root, int ID);
 
     //Print functions with their helpers
     void printPreorder();
-    Node* printPreorderRecursive(Node* root, bool& last);
+    void printPreorderRecursive(Node* root, bool& last);
     void printInorder();
-    Node* printInorderRecursive(Node* root, bool& last);
+    void printInorderRecursive(Node* root, bool& last);
     void printPostorder();
-    Node* printPostorderRecursive(Node* root, bool& last);
+    void printPostorderRecursive(Node* root, bool& last);
     void printLevelCount();
 
     //Rotation functions
@@ -65,10 +65,10 @@ struct BST{
     void remove(int ID);
     Node* removeRecursive(Node* root, int ID);
     Node* findInorderSuccessor(Node* root);
-    Node* removeInorder(int N);
+    void removeInorder(int N);
     Node* removeInorderRecursive(Node* root, int N, int count);
 
-    static int Test(){}
+    //static int Test(){}
 };
 
 #endif //PROJECT1_NODE_H
