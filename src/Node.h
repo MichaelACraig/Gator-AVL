@@ -13,7 +13,7 @@ struct BST{
     struct Node{
         Node* left;
         Node* right;
-        Node* parent; //Possibnly need? Idk since we have recursion and it'll catch the BF as soon as it sees 2
+        Node* parent; //Possibly need? Idk since we have recursion and it'll catch the BF as soon as it sees 2
 
         string NAME;
         int ID;
@@ -39,11 +39,11 @@ struct BST{
 
     //Print functions with their helpers
     void printPreorder();
-    Node* printPreorderRecursive(Node* root);
+    Node* printPreorderRecursive(Node* root, bool& last);
     void printInorder();
-    Node* printInorderRecursive(Node* root);
+    Node* printInorderRecursive(Node* root, bool& last);
     void printPostorder();
-    Node* printPostorderRecursive(Node* root);
+    Node* printPostorderRecursive(Node* root, bool& last);
     void printLevelCount();
 
     //Rotation functions
@@ -67,6 +67,8 @@ struct BST{
     Node* findInorderSuccessor(Node* root);
     Node* removeInorder(int N);
     Node* removeInorderRecursive(Node* root, int N, int count);
+
+    static int Test(){}
 };
 
 #endif //PROJECT1_NODE_H

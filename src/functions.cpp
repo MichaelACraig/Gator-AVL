@@ -27,51 +27,51 @@ using namespace std;
 
 void BST::masterFunction(){
     int numOfCommands = 0;
-    cin >> numOfCommands;
 
-    for(int i = 0; i < numOfCommands; i++){
+    cin >> numOfCommands; //Takes in the first parameter of 8
+    cout << endl;
+    cin.ignore();
+
+    //We need to state each command line outside the loop and run the loop after with values stored
+    for(int i = 0; i < numOfCommands; i++){ //For loop is busted for some reason
+
+        //CREATE HERE IF NEEDED: if the string is the last command, add "n\" to create needed whitespace to run
         string command;
-        cin >> command;
+        getline(cin, command);
+
+        //cout << "Command: " << i << ": " << command << endl;
 
         //Separates each string by spaces
         istringstream sCall(command);
 
-        string commandName = "";
+        string commandName, NAME, ID;
+        sCall >> commandName >> NAME >> ID;
 
-        sCall >> commandName;
-
-        string NAME = "";
-        int ID = 0;
-        int nth = 0;
+        //Since the entirety of the input is being ran by a string, you need to convert the ID using stoi
+        //Or any value that is passed in as a string and needs conversion (i.e removeInorder N, N is an int)
 
         if(commandName == "removeInorder"){ //We need to also do this with remove, search,
-            sCall >> commandName >> nth;
-
+            int nth = stoi(NAME); //Since removeInorder contains one argument, N = NAME in sCall
             removeInorder(nth);
         }
         else if(commandName == "remove"){
-            sCall >> commandName >> ID;
-
-            remove(ID);
+            int convertID = stoi(NAME); //Since there is only one argument in remove function, NAME takes the string val
+            remove(convertID);
         }
         else if(commandName == "search"){
-            //Need to check sCall >> commandName >> if it is ID or NAME
-            if(sCall.peek() == '"'){
-                sCall >> commandName >> NAME;
-
+            if(NAME[0] == '"'){ //If NAME stars with a ", run search(NAME) function
+                NAME.erase(0, 1);
+                NAME.erase(NAME.length() - 1);
                 search(NAME);
             }
             else{
-                sCall >> commandName >> ID;
-
-                search(ID);
+                search(stoi(NAME));
             }
-
         }
         else if(commandName == "insert"){
-            sCall >> commandName >> NAME >> ID;
-
-            insert(NAME, ID);
+            NAME.erase(0,1);
+            NAME.erase(NAME.length() - 1);
+            insert(NAME, stoi(ID));
         }
         else if (commandName == "printInorder") {
             printInorder();
@@ -127,43 +127,71 @@ void BST::search(string NAME){
     searchNAMERecurse(root, NAME);
 }
 //Start of Print Functions
-BST::Node* BST::printPreorderRecursive(BST::Node *root) {
+BST::Node* BST::printPreorderRecursive(BST::Node *root, bool& last) {
     if(root == nullptr){
-        return 0;
+        return nullptr;
     }
-    cout << root->NAME << ", ";
-    printPreorderRecursive(root->left); //Can't include root->left in the function because it expects no arguments
-    printPreorderRecursive(root->right);
+
+    if(last){
+        cout << ", ";
+    }
+    else{
+        last = true;
+    }
+    cout << root->NAME;
+    printPreorderRecursive(root->left, last); //Can't include root->left in the function because it expects no arguments
+    printPreorderRecursive(root->right, last);
 }
 
-BST::Node* BST::printInorderRecursive(BST::Node *root) {
+BST::Node* BST::printInorderRecursive(BST::Node *root, bool& last) {
     if(root == nullptr){
-        return 0;
+        return nullptr;
     }
-    printInorderRecursive(root->left);
-    cout << root->NAME << ", ";
-    printInorderRecursive(root->right);
+    printInorderRecursive(root->left, last);
+
+    if(last){
+        cout << ", ";
+    }
+    else{
+        last = true;
+    }
+    cout << root->NAME;
+
+    printInorderRecursive(root->right, last);
 }
 
-BST::Node* BST::printPostorderRecursive(BST::Node *root) {
+BST::Node* BST::printPostorderRecursive(BST::Node *root, bool& last) {
     if(root == nullptr){
-        return 0;
+        return nullptr;
     }
-    printInorderRecursive(root->left);
-    printInorderRecursive(root->right);
-    cout << root->NAME << ", ";
+    printPostorderRecursive(root->left, last);
+    printPostorderRecursive(root->right, last);
+
+    if(last){
+        cout << ", ";
+    }
+    else{
+        last = true;
+    }
+    cout << root->NAME;
 }
 
 void BST::printPreorder() {
-    printPreorderRecursive(root);
+    bool last = false;
+    printPreorderRecursive(root, last);
+    cout << endl;
 }
 
 void BST::printInorder() {
-    printInorderRecursive(root);
+    bool last = false;
+    printInorderRecursive(root, last);
+    cout << endl;
 }
 
 void BST::printPostorder() {
-    printPostorderRecursive(root);
+    bool last = false;
+    printPostorderRecursive(root, last);
+    cout << endl;
 }
 
 void BST::printLevelCount() {
@@ -234,22 +262,22 @@ BST::Node* BST::balanceFactorOfAllNodes(BST::Node* root) { //Recursion isn't wor
     //If-elseif statements for calling the correct rotations based off the chart from Balanced Trees Lecture
     if(balanceFactor == -2){
         if(findBalanceFactor(root->right) == -1){
-            cout << "rotateLeft" << endl;
+            //cout << "rotateLeft" << endl;
             root = rotateLeft(root);
         }
         else if(findBalanceFactor(root->right) == 1){
-            cout << "rotateRightLeft" << endl;
+            //cout << "rotateRightLeft" << endl;
             root = rotateRightLeft(root);
         }
     }
 
     else if(balanceFactor == 2){
         if(findBalanceFactor(root->left) == 1){
-            cout << "rotateRight" << endl;
+            //cout << "rotateRight" << endl;
             root = rotateRight(root);
         }
         else if(findBalanceFactor(root->left) == -1){
-            cout << "rotateLeftRight" << endl;
+            //cout << "rotateLeftRight" << endl;
             root = rotateLeftRight(root);
         }
     }
@@ -313,16 +341,13 @@ BST::Node* BST::insert(string insertedName, int insertedID){ //Initial call, tak
 
     if(root == nullptr){
         root = newNode;
-        cout << "Successful" << endl;
-        return root;
     }
     else {
         root = recursion(newNode, root); //Calls recursion to insert into the tree
-
         root = balanceFactorOfAllNodes(root); //Calls balanceFactorOfAllNodes() which balances the Tree via findHeight(), findBalanceFactor(), and combines.
-        cout << "Successful" << endl;
-        return root;
     }
+    cout << "Successful" << endl;
+    return root;
 }
 //End of Insertion Functions - Start of Removal Functions
 
@@ -362,13 +387,12 @@ BST::Node* BST::removeRecursive(BST::Node *root, int ID) {
             delete temp;
         }
             //Case 3: Root has two children
-        else{ //Might be broken, come back to tomorrow
+        else{
             Node* successor = findInorderSuccessor(root);
             root->NAME = successor->NAME;
             root->ID = successor->ID;
-            root->right = removeRecursive(root->right, successor->ID); //deletes the successor node after replacement
+            root->right = removeRecursive(root->right, successor->ID);
         }
-        cout << "Successful" << endl;
     }
     else if(ID > root->ID){
         root->right = removeRecursive(root->right, ID);
@@ -376,14 +400,21 @@ BST::Node* BST::removeRecursive(BST::Node *root, int ID) {
     else if(ID < root->ID){
         root->left = removeRecursive(root->left, ID);
     }
-    else{ //If the value is not found, is nullptr < ID? Keep in mind when testing this function
-        cout << "Unsuccessful" << endl;
+    else{
+        return nullptr;
     }
     return root;
 }
 
 void BST::remove(int ID){
-    removeRecursive(root, ID);
+    Node* temp = removeRecursive(root, ID);
+
+    if(temp == nullptr){
+        cout << "Unsuccessful" << endl;
+    }
+    else {
+        cout << "Successful" << endl;
+    }
 }
 
 BST::Node* BST::removeInorderRecursive(BST::Node* root, int N, int count){
@@ -394,15 +425,16 @@ BST::Node* BST::removeInorderRecursive(BST::Node* root, int N, int count){
     root->left = removeInorderRecursive(root->left, N, count);
     count++;
     if(count == N) {
-        remove(root->ID);
-        return root;
+        root = removeRecursive(root, root->ID);
     }
     root->right = removeInorderRecursive(root->right, N, count);
+    return root;
 }
 
 BST::Node* BST::removeInorder(int N) {
-    int count = 0;
+    int count = -1; //Since the first node in the series is 0, set to -1
     removeInorderRecursive(root, N, count);
+    cout << "Successful" << endl;
 
     //Below might be obsolete; Wanted to take an iterative approach but looks like it'll be long; Try recursive
     //Keep for reference in-case we need to go back, else just ignore.
