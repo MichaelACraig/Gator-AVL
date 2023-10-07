@@ -13,9 +13,9 @@
 TEST_CASE("BST Insert", "[flag]"){
 
 		/*BST tree;   // Create a Tree object
-		tree.insert(3);
-		tree.insert(2);
-		tree.insert(1);
+		tree.insert("A", 1);
+		tree.insert("B, 2);
+		tree.insert("C", 3);
 		std::vector<int> actualOutput = tree.inorder();
 		std::vector<int> expectedOutput = {1, 2, 3};
 		REQUIRE(expectedOutput.size() == actualOutput.size());
@@ -23,3 +23,19 @@ TEST_CASE("BST Insert", "[flag]"){
 
 	REQUIRE(1 == 1);
 }
+
+/* TEST_CASE("Wrong Commands", ""){
+    BST call;
+
+    call.insert("Bra11", 1);
+    call.remove(459999999);
+    call.search(1234567890);
+    call.search("A123");
+
+    call.insert("A", 1);
+    call.insert("B", 2);
+    call.insert("C", 3);
+
+    call.removeInorder(-1);
+    REQUIRE();
+} */

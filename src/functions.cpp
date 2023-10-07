@@ -50,28 +50,124 @@ void BST::masterFunction(){
         //Or any value that is passed in as a string and needs conversion (i.e removeInorder N, N is an int)
 
         if(commandName == "removeInorder"){ //We need to also do this with remove, search,
-            int nth = stoi(NAME); //Since removeInorder contains one argument, N = NAME in sCall
-            removeInorder(nth);
+            isalpha(NAME[0]);
+            if(isalpha(NAME[0]) == true || NAME[0] < 0){
+                cout << "unsuccessful" << endl;
+            }
+            else {
+                int nth = stoi(NAME); //Since removeInorder contains one argument, N = NAME in sCall
+                removeInorder(nth);
+            }
         }
         else if(commandName == "remove"){
-            int convertID = stoi(NAME); //Since there is only one argument in remove function, NAME takes the string val
-            remove(convertID);
+            bool hasAlpha = false;
+
+            if(NAME.size() > 8){ //Checks size of the ID being inserted
+                cout << "unsuccessful" << endl;
+            }
+            else {
+
+                for (int j = 0; j < NAME.size(); j++) { //Checks for alphabet in ID
+                    isalpha(NAME[j]);
+                    if (isalpha(NAME[j]) == true) {
+                        hasAlpha = true;
+                        break;
+                    }
+                }
+                if (hasAlpha) {
+                    cout << "unsuccessful" << endl;
+                } else {
+                    int convertID = stoi(NAME); //Since there is only one argument in remove function, NAME takes the string val
+                    if(convertID < 0){
+                        cout << "unsuccessful" << endl;
+                    }
+                    else {
+                        remove(convertID);
+                    }
+                }
+            }
         }
         else if(commandName == "search"){
+            bool hasDigit = false;
+            bool hasAlpha = false;
+
             if(NAME[0] == '"'){ //If NAME stars with a ", run search(NAME) function
-                NAME.erase(0, 1);
-                NAME.erase(NAME.length() - 1);
-                search(NAME);
+                for(int j = 0; j < NAME.size(); j++){
+                    isnumber(NAME[j]);
+                    if(isnumber(NAME[j]) == true){
+                        hasDigit = true;
+                        break;
+                    }
+                }
+                if(hasDigit){
+                    cout << "unsuccessful" << endl;
+                }
+                else {
+                    NAME.erase(0, 1);
+                    NAME.erase(NAME.length() - 1);
+                    search(NAME);
+                }
             }
             else{
-                int convertID = stoi(NAME);
-                search(convertID);
+                if(NAME.size() > 8){
+                    cout << "unsuccessful" << endl;
+                }
+                else {
+                    for (int j = 0; j < NAME[j]; j++) {
+                        isalpha(NAME[j]);
+                        if (isalpha(NAME[j]) == true) {
+                            hasAlpha = true;
+                            break;
+                        }
+                    }
+                    if (hasAlpha) {
+                        cout << "unsuccessful" << endl;
+                    } else {
+                        int convertID = stoi(NAME);
+                        search(convertID);
+                    }
+                }
             }
         }
         else if(commandName == "insert"){
-            NAME.erase(0,1);
-            NAME.erase(NAME.length() - 1);
-            insert(NAME, stoi(ID));
+            //check parameters for the name first, if it has a #
+            bool hasDigit = false;
+            bool hasAlpha = false;
+
+            for(int j = 0; j < NAME.size(); j++){
+                isnumber(NAME[j]);
+                if(isnumber(NAME[j]) == true){
+                    hasDigit = true;
+                    break;
+                }
+            }
+            if(hasDigit){
+                cout << "unsuccessful" << endl;
+            }
+            else {
+                NAME.erase(0, 1);
+                NAME.erase(NAME.length() - 1);
+
+                if(ID.size() > 8){ //Check ID's parameters
+                    cout << "unsuccessful" << endl;
+                }
+                else {
+                    for(int j = 0; j < ID.size(); j++){
+                        isalpha(ID[j]);
+                        if(isalpha(ID[j]) == true){
+                            hasAlpha = true;
+                            break;
+                        }
+                    }
+                    if(hasAlpha){
+                        cout << "unsuccessful" << endl;
+                    }
+                    else {
+                        int convertID = stoi(ID);
+                        insert(NAME, convertID);
+                    }
+                }
+            }
         }
         else if (commandName == "printInorder") {
             printInorder();
@@ -360,6 +456,9 @@ BST::Node* BST::recursion(BST::Node* insertedNode, BST::Node* root) {
 }
 
 BST::Node* BST::insert(string insertedName, int insertedID){ //Initial call, takes in both parameters
+    //Create a line of code that checks the entire length of the string
+    //If it has #'s 1-0, print unsuccessful, else do everything below
+
     auto* newNode = new BST::Node(insertedName, insertedID); //Creates a new node with said parameters
 
     if(root == nullptr){

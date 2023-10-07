@@ -29,6 +29,15 @@ int main() {
     printInorder
 
 
+
+5
+     insert "Bran1on" 12345678
+     insert "Brandon" 123456g8
+     insert "Benson" 123456789
+     insert "Benny" -12345678
+     insert "Toby" 12345678
+
+
      8
 insert "Brandon" 45674567
 insert "Brian" 35455565
