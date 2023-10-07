@@ -33,7 +33,7 @@ struct BST{
 
     //Search Functions
     void search(string NAME);
-    void searchNAMERecurse(Node* root, string NAME);
+    Node* searchNAMERecurse(Node* root, string NAME);
     void search(int ID);
     Node* searchIDRecurse(Node* root, int ID);
 
@@ -55,9 +55,7 @@ struct BST{
     //Insertion and balancing functions
     Node* insert(string NAME, int ID);
     Node* recursion(Node* insertionNode, Node* root);
-
     int findHeight(Node* root);
-
     int findBalanceFactor(Node* root);
     Node* balanceFactorOfAllNodes(Node* root);
 
@@ -66,7 +64,7 @@ struct BST{
     Node* removeRecursive(Node* root, int ID);
     Node* findInorderSuccessor(Node* root);
     void removeInorder(int N);
-    Node* removeInorderRecursive(Node* root, int N, int count);
+    Node* removeInorderRecursive(Node* root, int N, int& count);
 
     //static int Test(){}
 };

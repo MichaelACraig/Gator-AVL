@@ -28,5 +28,32 @@ int main() {
     removeInorder 2
     printInorder
 
+
+     8
+insert "Brandon" 45674567
+insert "Brian" 35455565
+insert "Briana" 87878787
+insert "Bella" 95462138
+printInorder
+remove 45674567
+removeInorder 2
+printInorder
+
+
+
+     1
+     search "Adam"
+
+
+    5
+    search 12345678
+    search "Adam"
+    insert "Adam" 12345678
+    search 23456789
+    search 12345678
+
+
+     */
+
     return 0;
 }

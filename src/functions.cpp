@@ -64,7 +64,8 @@ void BST::masterFunction(){
                 search(NAME);
             }
             else{
-                search(stoi(NAME));
+                int convertID = stoi(NAME);
+                search(convertID);
             }
         }
         else if(commandName == "insert"){
@@ -90,40 +91,63 @@ void BST::masterFunction(){
 BST::Node* BST::searchIDRecurse(BST::Node* root, int ID){
     //Use DFS in any order to search each root->ID.
     // If ID == root->ID, print out their root->NAME
-    if(root == nullptr || ID == root->ID){
+
+    if(root == nullptr){
+        return nullptr;
+    }
+    else if(ID == root->ID){ //Since root == null, root->ID is bad memory access thus causing the error
         cout << root->NAME << endl;
         return root;
     }
-    if(ID < root->ID){
+    else if(ID < root->ID){
         return searchIDRecurse(root->left, ID);
     }
     else{
         return searchIDRecurse(root->right, ID);
     }
+    return root;
 }
 
-void BST::searchNAMERecurse(BST::Node* root, string NAME){
+BST::Node* BST::searchNAMERecurse(BST::Node* root, string NAME){
     //Use DFS in preOrder to search each root->NAME
     //If NAME == root->name, print out their root->ID << endl;
     //else, cout << "Unsuccessful << endl;
 
     if(root == nullptr){
-        return;
+        return nullptr;
     }
+
     if(NAME == root->NAME){
         cout << root->ID << endl;
     }
 
     searchNAMERecurse(root->left, NAME);
     searchNAMERecurse(root->right, NAME);
+
+    return root;
 }
 
 void BST::search(int ID){
-    searchIDRecurse(root, ID);
+    Node* temp = searchIDRecurse(root, ID);
+
+    if(temp == nullptr){
+        cout << "unsuccessful" << endl;
+    }
+    else{
+        //cout << "successful" << endl;
+    }
+    temp = nullptr; //deallocate (probably unnecessary but good practice)
 }
 
 void BST::search(string NAME){
-    searchNAMERecurse(root, NAME);
+    Node* temp = searchNAMERecurse(root, NAME);
+
+    if(temp == nullptr){
+        cout << "unsuccessful" << endl;
+    }
+    else{
+        //cout << "successful" << endl;
+    }
 }
 //Start of Print Functions
 void BST::printPreorderRecursive(BST::Node *root, bool& last) {
@@ -416,15 +440,17 @@ void BST::remove(int ID){
     }
 }
 
-BST::Node* BST::removeInorderRecursive(BST::Node* root, int N, int count){
+BST::Node* BST::removeInorderRecursive(BST::Node* root, int N, int& count){
     //Do recursive InOrder traversal until count reaches the value of N
     if(root == nullptr){
         return nullptr;
     }
     root->left = removeInorderRecursive(root->left, N, count);
     count++;
+
     if(count == N) {
         root = removeRecursive(root, root->ID);
+        return root;
     }
     root->right = removeInorderRecursive(root->right, N, count);
     return root;
@@ -432,9 +458,14 @@ BST::Node* BST::removeInorderRecursive(BST::Node* root, int N, int count){
 
 void BST::removeInorder(int N) {
     int count = -1; //Since the first node in the series is 0, set to -1
-    removeInorderRecursive(root, N, count);
-    cout << "successful" << endl;
+    root = removeInorderRecursive(root, N, count);
 
+    if(count < N){
+        cout << "unsuccessful" << endl;
+    }
+    else{
+        cout << "successful" << endl;
+    }
     //Below might be obsolete; Wanted to take an iterative approach but looks like it'll be long; Try recursive
     //Keep for reference in-case we need to go back, else just ignore.
 
